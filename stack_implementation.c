@@ -50,7 +50,7 @@ return EXIT_SUCCESS;
 void push(int64_t const stack_size, int64_t stack[stack_size], int64_t const x){
 	int64_t max_stack_top_value = stack_size - 1;
 	if (stack_top >= max_stack_top_value){
-		perror("cannot push value to the stack (stack overflow)");
+		printf("cannot push value to the stack (stack overflow)\n");
 	}
 	else{
 		++stack_top;
