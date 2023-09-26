@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 void push(int64_t const stack_size, int64_t stack[stack_size], int64_t const x);
 void pop(int64_t const stack_size, int64_t stack[stack_size]);
+bool stack_empty(int64_t const stack_size, int64_t stack[stack_size]);
 int64_t *mkstack(int64_t *stack_size);
 int64_t stack_top = -1;
 
@@ -17,6 +19,7 @@ int main(void){
 		printf("To push to stack, press '1'\n" 
 						"To pop stack, press '2'\n"
 						"To print stack, press '3'\n"		
+						"To check if stack is empty, press '4'\n"
 						"To print current index, press '57' \n"
 						"To exit, press anything else\n");
 		scanf("%ld", &select);
@@ -34,6 +37,14 @@ int main(void){
 					printf("S[%ld] = %ld\n", i, stack[i]);
 				}
 				break;
+			case 4:
+				if (stack_empty(stack_size, &stack[0])){
+					printf("Stack is emtpy\n");
+				}
+				else {
+					printf("There are objects in the stack\n");
+				}
+				break;
 			case 57: 
 				printf("stack_top = %ld\n", stack_top);
 				break;
@@ -41,7 +52,7 @@ int main(void){
 				puts("Exitting program");
 		}
 
-	}while(select == 3 || select == 2 || select == 1 || select == 57);
+	}while(select == 4 || select == 3 || select == 2 || select == 1 || select == 57);
 
 
 	free(stack);
@@ -50,21 +61,26 @@ return EXIT_SUCCESS;
 void push(int64_t const stack_size, int64_t stack[stack_size], int64_t const x){
 	int64_t max_stack_top_value = stack_size - 1;
 	if (stack_top >= max_stack_top_value){
-		printf("cannot push value to the stack (stack overflow)\n");
+		fprintf(stderr, "cannot push value to the stack (stack overflow)\n");
 	}
 	else{
 		++stack_top;
 		stack[stack_top] = x;
+		printf("Val %ld inserted into the top of the stack\n", x);
 	}
 }
 void pop(int64_t const stack_size, int64_t stack[stack_size]){
 	if (stack_top < 0){
-		printf("cannot pop() current value (stack underflow)\n");
+		fprintf(stderr, "cannot pop() current value (stack underflow)\n");
 	}
 	else {
 		--stack_top;
 		printf("Pop() was successful\n");
 	}
+}
+bool stack_empty(int64_t const stack_size, int64_t stack[stack_size]){
+	if (stack_top < 0)	return true;
+	return false;
 }
 
 int64_t *mkstack(int64_t *stack_size){
