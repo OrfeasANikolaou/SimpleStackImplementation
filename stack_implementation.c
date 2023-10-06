@@ -7,7 +7,7 @@ void pop(int64_t const stack_size, int64_t stack[stack_size]);
 bool stack_empty(int64_t const stack_size, int64_t stack[stack_size]);
 int64_t *mkstack(int64_t *stack_size);
 int64_t stack_top = -1;
-
+enum {PUSH, POP, PRINT, IS_EMPTY, CURRENT_INDEX, EXIT};
 int main(void){
 	int64_t *stack = NULL;
 	int64_t stack_size;
@@ -16,28 +16,28 @@ int main(void){
 	stack = mkstack(&stack_size);
 	do{
 		puts("------------------------------------------------");
-		printf("To push to stack, press '1'\n" 
-						"To pop stack, press '2'\n"
-						"To print stack, press '3'\n"		
-						"To check if stack is empty, press '4'\n"
-						"To print current index, press '57' \n"
-						"To exit, press anything else\n");
+		printf("To push to stack, press '0'\n" 
+						"To pop stack, press '1'\n"
+						"To print stack, press '2'\n"		
+						"To check if stack is empty, press '3'\n"
+						"To print current index, press '4' \n"
+						"To exit, press '5'\n");
 		scanf("%ld", &select);
 		switch(select){
-			case 1: 
+			case PUSH: 
 				printf("Enter number to insert on stack: ");
 				scanf("%ld", &x);
 				push(stack_size, &stack[0], x);
 				break;
-			case 2:
+			case POP:
 				pop(stack_size, &stack[0]);
 				break;
-			case 3:
+			case PRINT:
 				for (int64_t i = 0; i <= stack_top; ++i){
 					printf("S[%ld] = %ld\n", i, stack[i]);
 				}
 				break;
-			case 4:
+			case IS_EMPTY:
 				if (stack_empty(stack_size, &stack[0])){
 					printf("Stack is emtpy\n");
 				}
@@ -45,14 +45,18 @@ int main(void){
 					printf("There are objects in the stack\n");
 				}
 				break;
-			case 57: 
+			case CURRENT_INDEX: 
 				printf("stack_top = %ld\n", stack_top);
 				break;
-			default:
+			case EXIT:
 				puts("Exitting program");
 		}
 
-	}while(select == 4 || select == 3 || select == 2 || select == 1 || select == 57);
+	}while (select == PUSH		 ||
+					select == POP			 ||
+					select == PRINT		 ||
+					select == IS_EMPTY ||
+					select == CURRENT_INDEX);
 
 
 	free(stack);
